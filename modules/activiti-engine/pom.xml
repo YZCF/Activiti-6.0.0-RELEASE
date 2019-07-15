@@ -6,6 +6,8 @@
 	<name>Activiti - Engine</name>
 	<artifactId>activiti-engine</artifactId>
 
+	<!--<version>6.0.0</version>-->
+
 	<parent>
 		<groupId>org.activiti</groupId>
 		<artifactId>activiti-root</artifactId>

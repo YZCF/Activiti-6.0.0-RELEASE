@@ -5,6 +5,7 @@
   <name>Activiti UI App Root</name>
   <artifactId>activiti-ui-root</artifactId>
   <packaging>pom</packaging>
+	<version>6.0.0-spring-boot-2.x</version>
   
   <parent>
     <groupId>org.activiti</groupId>
@@ -23,7 +24,11 @@
 	    <spring.version>4.1.6.RELEASE </spring.version>
 		<spring.security.version>4.0.1.RELEASE</spring.security.version>
 		<hibernate.version>4.2.16.Final</hibernate.version>
-		<jackson.version>2.3.3</jackson.version>
+		<!--<jackson.version>2.3.3</jackson.version>-->
+	  <!-- 解决问题：Could not find artifact com.fasterxml.jackson:jackson-bom:pom:2.3.3
+	  in alimaven (http://maven.aliyun.com/nexus/content/repositories/central/)
+	  原因：版本过低maven仓库已不存储该版本，更新maven仓库中已存在版本即可-->
+	  	<jackson.version>2.6.7</jackson.version>
 		<codahale.metrics.version>3.0.2</codahale.metrics.version>
 		<hazelcastcache.version>3.1.5</hazelcastcache.version>
 		<batik.version>1.7</batik.version>
@@ -31,6 +36,8 @@
 		
 		<!-- Web container version -->
 		<tomcat.version>7.0.53</tomcat.version>
+
+	  <spring.boot.version>1.2.6.RELEASE</spring.boot.version>
   </properties>
 
 	<prerequisites>
@@ -481,6 +488,13 @@
 			<version>4.3.5</version>
 			<scope>test</scope>
 		</dependency>
+
+		  <!-- https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator -->
+		  <!--<dependency>
+			  <groupId>com.fasterxml.uuid</groupId>
+			  <artifactId>java-uuid-generator</artifactId>
+			  <version>3.2.0</version>
+		  </dependency>-->
 	 </dependencies>
 	</dependencyManagement>
 
@@ -524,6 +538,13 @@
 			<runOrder>alphabetical</runOrder>
 		</configuration>
       </plugin>
+
+		<!-- 添加tomcat7插件 -->
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+		</plugin>
     </plugins>
   </build>
 </project>

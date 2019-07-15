@@ -13,6 +13,8 @@
 
     <artifactId>activiti-spring-boot</artifactId>
 
+    <version>6.0.0-spring-boot-2.x</version>
+
     <packaging>pom</packaging>
 
     <modules>
@@ -29,6 +31,8 @@
 
         <spring.boot.version>1.2.6.RELEASE</spring.boot.version>
         <!--<spring.framework.version>${spring.framework.version}</spring.framework.version>-->
+
+        <!--<activiti.version>6.0.0</activiti.version>-->
 
     </properties>
 

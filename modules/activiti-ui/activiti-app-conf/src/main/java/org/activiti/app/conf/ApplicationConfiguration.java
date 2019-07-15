@@ -29,6 +29,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
         "org.activiti.app.service",
         "org.activiti.app.security",
         "org.activiti.app.model.component"})
+//@EntityScan({"org.activiti.app.domain"})
 public class ApplicationConfiguration {
 	
 	/**

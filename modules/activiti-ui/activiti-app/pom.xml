@@ -6,16 +6,54 @@
     <parent>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-ui-root</artifactId>
-        <version>6.0.0</version>
+        <version>6.0.0-spring-boot-2.x</version>
     </parent>
     <artifactId>activiti-app</artifactId>
     <packaging>war</packaging>
 
     <dependencies>
+
+        <!-- 引入activiti-spring-boot -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter-basic</artifactId>
+            <!--<version>6.0.0-spring-boot-2.x</version>-->
+            <version>6.0.0</version>
+        </dependency>
+
+        <!-- 添加springBoot依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
     
     	<dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-app-conf</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 		<dependency>
@@ -26,6 +64,13 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator -->
+        <!--<dependency>
+            <groupId>com.fasterxml.uuid</groupId>
+            <artifactId>java-uuid-generator</artifactId>
+            <version>3.2.0</version>
+        </dependency>-->
 
     </dependencies>
 
@@ -93,6 +138,13 @@
 
         <pluginManagement>
             <plugins>
+
+                <!-- 添加springBoot插件 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
                     build itself. -->
