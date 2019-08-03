@@ -43,6 +43,10 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+			<!-- 此处需指定version版本号，解决传递依赖问题：
+			 The POM for org.activiti:activiti-form-engine:jar:6.0.0 is invalid，...
+			 [ERROR]'dependencies.dependency.version' for commons-logging:commons-logging:jar is missing-->
+			<version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

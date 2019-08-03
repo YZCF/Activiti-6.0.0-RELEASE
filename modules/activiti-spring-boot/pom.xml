@@ -13,7 +13,7 @@
 
     <artifactId>activiti-spring-boot</artifactId>
 
-    <version>6.0.0-spring-boot-2.x</version>
+    <version>6.0.0-spring-boot-2.x.RELEASE</version>
 
     <packaging>pom</packaging>
 
@@ -29,10 +29,19 @@
             org.activiti.spring.boot
         </activiti.artifact>
 
-        <spring.boot.version>1.2.6.RELEASE</spring.boot.version>
+        <!--<spring.boot.version>1.2.6.RELEASE</spring.boot.version>-->
+        <!-- 升级SpringBoot版本 -->
+        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+
+        <!-- 指定springFramework版本 -->
+        <spring.framework.version>5.1.7.RELEASE</spring.framework.version>
+
         <!--<spring.framework.version>${spring.framework.version}</spring.framework.version>-->
 
-        <!--<activiti.version>6.0.0</activiti.version>-->
+        <!-- 指定spring-security版本 -->
+        <spring.security.version>5.1.5.RELEASE</spring.security.version>
+
+        <activiti.version>6.0.0</activiti.version>
 
     </properties>
 
@@ -42,6 +51,7 @@
                 <groupId>xml-apis</groupId>
                 <artifactId>xml-apis</artifactId>
                 <version>1.4.01</version>
+                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

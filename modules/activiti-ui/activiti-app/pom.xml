@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-ui-root</artifactId>
-        <version>6.0.0-spring-boot-2.x</version>
+        <version>6.0.0-spring-boot-2.x.RELEASE</version>
     </parent>
     <artifactId>activiti-app</artifactId>
     <packaging>war</packaging>
@@ -17,8 +17,29 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <!--<version>6.0.0-spring-boot-2.x</version>-->
-            <version>6.0.0</version>
+            <!-- 修改为依赖spring-boot-2.x版本 -->
+            <!--<version>6.0.0</version>-->
+            <version>6.0.0-spring-boot-2.x.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+            <!--<exclusions>
+                <exclusion>
+                    <artifactId>java-uuid-generator</artifactId>
+                    <groupId>com.fasterxml.uuid</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>activiti-dmn-engine</artifactId>
+                    <groupId>org.activiti</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>activiti-form-engine</artifactId>
+                    <groupId>org.activiti</groupId>
+                </exclusion>
+            </exclusions>-->
         </dependency>
 
         <!-- 添加springBoot依赖 -->

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.activiti.dmn.engine.DmnEngineConfiguration;
+import org.activiti.dmn.engine.configurator.DmnEngineConfigurator;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -27,6 +29,10 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.Clock;
+import org.activiti.form.api.FormRepositoryService;
+import org.activiti.form.engine.FormEngineConfiguration;
+import org.activiti.form.engine.configurator.FormEngineConfigurator;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringAsyncExecutor;
 import org.activiti.spring.SpringCallerRunsRejectedJobsHandler;
@@ -54,7 +60,7 @@ public abstract class AbstractProcessEngineAutoConfiguration
 
   @Autowired
   private ResourcePatternResolver resourceLoader;
-  
+
   @Autowired(required=false)
   private ProcessEngineConfigurationConfigurer processEngineConfigurationConfigurer;
 
@@ -62,8 +68,8 @@ public abstract class AbstractProcessEngineAutoConfiguration
   public SpringAsyncExecutor springAsyncExecutor(TaskExecutor taskExecutor) {
     return new SpringAsyncExecutor(taskExecutor, springRejectedJobsHandler());
   }
-  
-  @Bean 
+
+  @Bean
   public SpringRejectedJobsHandler springRejectedJobsHandler() {
     return new SpringCallerRunsRejectedJobsHandler();
   }
@@ -72,23 +78,23 @@ public abstract class AbstractProcessEngineAutoConfiguration
                                                                                   SpringAsyncExecutor springAsyncExecutor) throws IOException {
 
     List<Resource> procDefResources = this.discoverProcessDefinitionResources(
-        this.resourceLoader, this.activitiProperties.getProcessDefinitionLocationPrefix(),
-        this.activitiProperties.getProcessDefinitionLocationSuffixes(),
-        this.activitiProperties.isCheckProcessDefinitions());
+            this.resourceLoader, this.activitiProperties.getProcessDefinitionLocationPrefix(),
+            this.activitiProperties.getProcessDefinitionLocationSuffixes(),
+            this.activitiProperties.isCheckProcessDefinitions());
 
     SpringProcessEngineConfiguration conf = super.processEngineConfigurationBean(
-        procDefResources.toArray(new Resource[procDefResources.size()]), dataSource, 
-        platformTransactionManager, springAsyncExecutor);
+            procDefResources.toArray(new Resource[procDefResources.size()]), dataSource,
+            platformTransactionManager, springAsyncExecutor);
 
     conf.setDeploymentName(defaultText(activitiProperties.getDeploymentName(), conf.getDeploymentName()));
     conf.setDatabaseSchema(defaultText(activitiProperties.getDatabaseSchema(), conf.getDatabaseSchema()));
     conf.setDatabaseSchemaUpdate(defaultText(activitiProperties.getDatabaseSchemaUpdate(), conf.getDatabaseSchemaUpdate()));
-    
+
     conf.setDbIdentityUsed(activitiProperties.isDbIdentityUsed());
     conf.setDbHistoryUsed(activitiProperties.isDbHistoryUsed());
-    
+
     conf.setAsyncExecutorActivate(activitiProperties.isAsyncExecutorActivate());
-    
+
     conf.setMailServerHost(activitiProperties.getMailServerHost());
     conf.setMailServerPort(activitiProperties.getMailServerPort());
     conf.setMailServerUsername(activitiProperties.getMailServerUserName());
@@ -96,7 +102,7 @@ public abstract class AbstractProcessEngineAutoConfiguration
     conf.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
     conf.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
     conf.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
-    
+
     conf.setHistoryLevel(activitiProperties.getHistoryLevel());
 
     if (activitiProperties.getCustomMybatisMappers() != null) {
@@ -114,14 +120,28 @@ public abstract class AbstractProcessEngineAutoConfiguration
     if (activitiProperties.getCustomMybatisXMLMappers() != null) {
       conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
     }
-    
+
     if (processEngineConfigurationConfigurer != null) {
-    	processEngineConfigurationConfigurer.configure(conf);
+      processEngineConfigurationConfigurer.configure(conf);
     }
+
+    FormEngineConfiguration formEngineConfiguration = new FormEngineConfiguration();
+    formEngineConfiguration.setDataSource(dataSource);
+
+    FormEngineConfigurator formEngineConfigurator = new FormEngineConfigurator();
+    formEngineConfigurator.setFormEngineConfiguration(formEngineConfiguration);
+    conf.addConfigurator(formEngineConfigurator);
+
+    DmnEngineConfiguration dmnEngineConfiguration = new DmnEngineConfiguration();
+    dmnEngineConfiguration.setDataSource(dataSource);
+
+    DmnEngineConfigurator dmnEngineConfigurator = new DmnEngineConfigurator();
+    dmnEngineConfigurator.setDmnEngineConfiguration(dmnEngineConfiguration);
+    conf.addConfigurator(dmnEngineConfigurator);
 
     return conf;
   }
-  
+
   protected Set<Class<?>> getCustomMybatisMapperClasses(List<String> customMyBatisMappers) {
     Set<Class<?>> mybatisMappers = new HashSet<Class<?>>();
     for (String customMybatisMapperClassName : customMyBatisMappers) {
@@ -210,5 +230,23 @@ public abstract class AbstractProcessEngineAutoConfiguration
   @ConditionalOnMissingBean
   public TaskExecutor taskExecutor() {
     return new SimpleAsyncTaskExecutor();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public FormRepositoryService formEngineRepositoryService(ProcessEngine processEngine) {
+    return processEngine.getFormEngineRepositoryService();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public org.activiti.form.api.FormService formEngineFormService(ProcessEngine processEngine) {
+    return processEngine.getFormEngineFormService();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public Clock clock(SpringProcessEngineConfiguration configuration) {
+    return configuration.getClock();
   }
 }

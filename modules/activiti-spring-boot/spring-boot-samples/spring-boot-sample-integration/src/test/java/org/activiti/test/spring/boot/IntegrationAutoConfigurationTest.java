@@ -36,7 +36,7 @@ import org.springframework.web.client.RestTemplate;
  * @author Josh Long
  */
 public class IntegrationAutoConfigurationTest {
-	
+
 	 @Configuration
    @Import(BaseConfiguration.class)
    public static class InboundGatewayConfiguration {
@@ -101,7 +101,7 @@ public class IntegrationAutoConfigurationTest {
     @Test
     public void testLaunchingGatewayProcessDefinition() throws Exception {
         AnnotationConfigApplicationContext applicationContext = this.context(InboundGatewayConfiguration.class);
-        
+
         RepositoryService repositoryService = applicationContext.getBean(RepositoryService.class);
         RuntimeService runtimeService = applicationContext.getBean(RuntimeService.class);
         ProcessEngine processEngine = applicationContext.getBean(ProcessEngine.class);
@@ -141,5 +141,5 @@ public class IntegrationAutoConfigurationTest {
     }
 
 
-   
+
 }

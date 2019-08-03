@@ -5,7 +5,7 @@
   <name>Activiti UI App Root</name>
   <artifactId>activiti-ui-root</artifactId>
   <packaging>pom</packaging>
-	<version>6.0.0-spring-boot-2.x</version>
+	<version>6.0.0-spring-boot-2.x.RELEASE</version>
   
   <parent>
     <groupId>org.activiti</groupId>
@@ -21,14 +21,32 @@
 
 		<!-- Libraries versions -->
 		<activiti.version>6.0.0</activiti.version>
-	    <spring.version>4.1.6.RELEASE </spring.version>
-		<spring.security.version>4.0.1.RELEASE</spring.security.version>
-		<hibernate.version>4.2.16.Final</hibernate.version>
+
+	  	<!-- 升级SpringBoot版本 -->
+	  	<!--<spring.boot.version>1.2.6.RELEASE</spring.boot.version>-->
+	  	<spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+
+	  	<!-- 升级spring版本 -->
+	    <!--<spring.version>4.1.6.RELEASE </spring.version>-->
+	  	<spring.version>5.1.7.RELEASE </spring.version>
+
+	  	<!-- 升级spring-security版本 -->
+		<!--<spring.security.version>4.0.1.RELEASE</spring.security.version>-->
+	  	<spring.security.version>5.1.5.RELEASE</spring.security.version>
+
+	  	<!-- 升级hibernate版本 -->
+		<!--<hibernate.version>4.2.16.Final</hibernate.version>-->
+	  	<hibernate.version>5.3.10.Final</hibernate.version>
+
 		<!--<jackson.version>2.3.3</jackson.version>-->
 	  <!-- 解决问题：Could not find artifact com.fasterxml.jackson:jackson-bom:pom:2.3.3
 	  in alimaven (http://maven.aliyun.com/nexus/content/repositories/central/)
 	  原因：版本过低maven仓库已不存储该版本，更新maven仓库中已存在版本即可-->
-	  	<jackson.version>2.6.7</jackson.version>
+	  	<!--<jackson.version>2.6.7</jackson.version>-->
+
+	  	<!-- 适配springBoot-2.1.5升级对应版本 -->
+	  	<jackson.version>2.9.8</jackson.version>
+
 		<codahale.metrics.version>3.0.2</codahale.metrics.version>
 		<hazelcastcache.version>3.1.5</hazelcastcache.version>
 		<batik.version>1.7</batik.version>
@@ -36,8 +54,6 @@
 		
 		<!-- Web container version -->
 		<tomcat.version>7.0.53</tomcat.version>
-
-	  <spring.boot.version>1.2.6.RELEASE</spring.boot.version>
   </properties>
 
 	<prerequisites>
@@ -215,7 +231,9 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.1.0</version>
+			<!-- 升级版本 -->
+			<!--<version>3.1.0</version>-->
+			<version>3.6.3</version>
 		</dependency>
 		<dependency>
             <groupId>com.mchange</groupId>
@@ -299,7 +317,9 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.1.0.Final</version>
+			<!-- 升级版本 -->
+			<!--<version>1.1.0.Final</version>-->
+			<version>2.0.1.Final</version>
 		</dependency>
 
 		<!-- JODA TIME -->
@@ -316,7 +336,9 @@
 		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.core</artifactId>
-			<version>3.1.0.CR10</version>
+			<!-- 升级版本 -->
+			<!--<version>3.1.0.CR10</version>-->
+			<version>6.0.1.GA</version>
 		</dependency>
 
 		<!-- SPRING -->
@@ -380,7 +402,9 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.7.1.RELEASE</version>
+			<!-- 升级版本 -->
+			<!--<version>1.7.1.RELEASE</version>-->
+			<version>2.1.8.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -412,7 +436,9 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.20</version>
+			<!-- 升级版本 -->
+            <!--<version>2.3.20</version>-->
+			<version>2.3.28</version>
         </dependency>
         <dependency>
         	<groupId>javax.mail</groupId>

@@ -49,13 +49,25 @@ activitiApp.service('RuntimeAppDefinitionService', ['$http', '$q', '$location', 
                 baseUrl = baseUrl.substring(0, baseUrl.length - appName.length - 1);
             }
 
-            var urls = {
+            /*var urls = {
                 editor: baseUrl + '/editor/',
                 identity: baseUrl + '/idm/',
                 workflow: baseUrl + '/workflow/',
                 admin: 'http://localhost:8080/activiti-admin',
                 analytics: baseUrl + '/analytics/'
+            };*/
+
+            // 升级spring-boot-2.x改造：解决页面访问404问题 start
+
+            var urls = {
+                editor: baseUrl + '/editor/index.html',
+                identity: baseUrl + '/idm/index.html',
+                workflow: baseUrl + '/workflow/index.html',
+                admin: 'http://localhost:8080/activiti-admin',
+                analytics: baseUrl + '/analytics/'
             };
+
+            // 升级spring-boot-2.x改造：解决页面访问404问题 end
 
             var transformAppsResponse = function(value) {
                 var response = JSON.parse(value);
