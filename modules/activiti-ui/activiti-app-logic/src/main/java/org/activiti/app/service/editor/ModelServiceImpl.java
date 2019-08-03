@@ -385,14 +385,21 @@ public class ModelServiceImpl implements ModelService {
             }*/
 
             // 升级spring-boot-2.x改造 start
-            Model model = new Model();
+            /*Model model = new Model();
             model.setId(appModelDefinition.getId());
             Example<Model> example = Example.of(model);
 
             if (!modelRepository.exists(example)) {
               result.getUnresolvedModels().add(new UnresolveModelRepresentation(appModelDefinition.getId(),
                       appModelDefinition.getName(), appModelDefinition.getLastUpdatedBy()));
+            }*/
+
+            //使用Example方式会存在bug，改为以下方式
+            if (!modelRepository.existsById(appModelDefinition.getId())) {
+              result.getUnresolvedModels().add(new UnresolveModelRepresentation(appModelDefinition.getId(),
+                      appModelDefinition.getName(), appModelDefinition.getLastUpdatedBy()));
             }
+
             // 升级spring-boot-2.x改造 end
           }
         } catch (Exception e) {
@@ -576,14 +583,20 @@ public class ModelServiceImpl implements ModelService {
           modelRelationRepository.save(new ModelRelation(bpmnProcessModel.getId(), idReferencedInJson, relationshipType));
         }*/
 
-        Model model = new Model();
+        // 解决Model与Process关联不上问题；原因：new Model()时，会默认初始化created和version两个属性值，导致数据库查询存在bug add by:yaojc at:2019/08/03 start
+        /*Model model = new Model();
         model.setId(idReferencedInJson);
 
         Example<Model> example = Example.of(model);
 
         if (modelRepository.exists(example)) {
           modelRelationRepository.save(new ModelRelation(bpmnProcessModel.getId(), idReferencedInJson, relationshipType));
+        }*/
+
+        if (modelRepository.existsById(idReferencedInJson)) {
+          modelRelationRepository.save(new ModelRelation(bpmnProcessModel.getId(), idReferencedInJson, relationshipType));
         }
+        // 解决Model与Process关联不上问题；原因：new Model()时，会默认初始化created和version两个属性值，导致数据库查询存在bug add by:yaojc at:2019/08/03 end
       }
     }
   }
